@@ -26,7 +26,7 @@ const Contact = () => (
     </motion.p>
 
     <motion.form
-      action="https://portfolio-website-zaid-kidwais-projects.vercel.app/"
+      action="https://formsubmit.co/zaidkidwai2@gmail.com"
       method="POST"
       className="w-full max-w-xl space-y-6"
       initial={{ opacity: 0 }}
@@ -35,7 +35,7 @@ const Contact = () => (
       viewport={{ once: true }}
     >
       {/* 🔁 Hidden fields */}
-      <input type="hidden" name="_next" value="https://your-domain.com/thankyou" />
+      <input type="hidden" name="_next" value="https://portfolio-website-zaid-kidwais-projects.vercel.app/thankyou" />
       <input type="hidden" name="_captcha" value="false" />
 
       {/* 🔤 Name */}
