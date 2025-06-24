@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-scroll";
 
@@ -15,8 +15,9 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const menuRef = useRef(null);
 
-  // Scroll hide/show navbar
+  // Sticky hide-on-scroll behavior
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
@@ -27,15 +28,25 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
-  // Lock body scroll when mobile menu is open
+  // Close mobile menu on outside click
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "auto";
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
   return (
     <>
-      {/* Scroll progress bar */}
-      <div className="fixed top-0 left-0 w-full z-[99] h-1 bg-gradient-to-r from-purple-500 to-pink-500 transform origin-left scale-x-0 animate-scroll-progress"></div>
+      {/* Scroll Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-pink-500 z-[99] scale-x-0 origin-left animate-scroll-progress" />
 
       {/* Navbar */}
       <header
@@ -53,7 +64,7 @@ const Navbar = () => {
             Zaid.dev
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Nav */}
           <nav className="hidden md:flex gap-8">
             {navLinks.map((link) => (
               <Link
@@ -67,13 +78,12 @@ const Navbar = () => {
                 className="cursor-pointer relative transition font-medium hover:text-purple-400 group"
               >
                 {link.name}
-                {/* Animated underline */}
                 <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-purple-400 transition-all group-hover:w-full" />
               </Link>
             ))}
           </nav>
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile Toggle */}
           <button
             className="md:hidden text-2xl z-[60]"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -83,28 +93,27 @@ const Navbar = () => {
         </div>
       </header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Drawer Menu */}
       {menuOpen && (
         <div
-          className="fixed inset-0 top-16 z-40 bg-black/95 backdrop-blur-sm flex flex-col items-center justify-start pt-10 md:hidden"
-          onClick={() => setMenuOpen(false)}
+          ref={menuRef}
+          className="fixed top-16 left-0 w-full z-40 bg-black/95 backdrop-blur-sm flex flex-col items-center space-y-6 py-8 text-white md:hidden"
         >
-          <ul className="space-y-6 text-lg font-medium">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.to}
-                smooth={true}
-                duration={500}
-                spy={true}
-                offset={-70}
-                activeClass="text-purple-400"
-                className="cursor-pointer transition hover:text-purple-400"
-              >
-                {link.name}
-              </Link>
-            ))}
-          </ul>
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.to}
+              smooth={true}
+              duration={500}
+              spy={true}
+              offset={-70}
+              activeClass="text-purple-400"
+              className="text-lg cursor-pointer transition hover:text-purple-400"
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.name}
+            </Link>
+          ))}
         </div>
       )}
     </>
