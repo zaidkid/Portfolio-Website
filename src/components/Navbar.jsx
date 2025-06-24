@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-scroll";
 
@@ -14,9 +14,25 @@ const navLinks = [
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Auto-close when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        menuOpen &&
+        !e.target.closest(".mobile-nav") &&
+        !e.target.closest(".menu-toggle")
+      ) {
+        setMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [menuOpen]);
+
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-black/70 backdrop-blur-md shadow-md">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center text-white">
+        {/* Logo */}
         <Link
           to="home"
           smooth={true}
@@ -46,35 +62,37 @@ const Navbar = () => {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-2xl"
+          className="md:hidden text-2xl menu-toggle"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <FaTimes /> : <FaBars />}
         </button>
       </div>
 
-      {/* Mobile Nav */}
-      {menuOpen && (
-        <div className="md:hidden bg-black/90">
-          <ul className="flex flex-col items-center py-4 space-y-4 text-lg font-medium">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.to}
-                smooth={true}
-                duration={500}
-                spy={true}
-                offset={-70}
-                activeClass="text-purple-400"
-                className="cursor-pointer transition hover:text-purple-400"
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ))}
-          </ul>
-        </div>
-      )}
+      {/* Mobile Nav Menu */}
+      <div
+        className={`md:hidden fixed top-16 left-0 w-full bg-black/90 text-white transition-transform duration-300 ${
+          menuOpen ? "translate-y-0" : "-translate-y-full"
+        } mobile-nav z-40`}
+      >
+        <ul className="flex flex-col items-center py-6 space-y-4 text-lg font-medium">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.to}
+              smooth={true}
+              duration={500}
+              spy={true}
+              offset={-70}
+              activeClass="text-purple-400"
+              className="cursor-pointer transition hover:text-purple-400"
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </ul>
+      </div>
     </header>
   );
 };
