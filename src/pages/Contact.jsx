@@ -26,34 +26,46 @@ const Contact = () => (
     </motion.p>
 
     <motion.form
+      action="https://portfolio-website-zaid-kidwais-projects.vercel.app/"
+      method="POST"
       className="w-full max-w-xl space-y-6"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.4 }}
       viewport={{ once: true }}
-      onSubmit={(e) => {
-        e.preventDefault();
-        alert("Form submission is not connected yet.");
-      }}
     >
+      {/* 🔁 Hidden fields */}
+      <input type="hidden" name="_next" value="https://your-domain.com/thankyou" />
+      <input type="hidden" name="_captcha" value="false" />
+
+      {/* 🔤 Name */}
       <input
         type="text"
+        name="name"
         placeholder="Your Name"
-        className="w-full px-4 py-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
         required
+        className="w-full px-4 py-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
       />
+
+      {/* 📧 Email */}
       <input
         type="email"
+        name="email"
         placeholder="Your Email"
-        className="w-full px-4 py-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
         required
+        className="w-full px-4 py-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
       />
+
+      {/* 💬 Message */}
       <textarea
+        name="message"
         rows="5"
         placeholder="Your Message"
-        className="w-full px-4 py-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
         required
+        className="w-full px-4 py-3 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
       ></textarea>
+
+      {/* ✅ Submit Button */}
       <button
         type="submit"
         className="w-full bg-white text-black font-semibold py-3 rounded hover:bg-gray-200 transition"

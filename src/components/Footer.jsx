@@ -1,4 +1,6 @@
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { FaGithub, FaLinkedin, } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
+
 
 const Footer = () => (
   <footer className="bg-gray-950 text-gray-400 py-8 px-6 text-center mt-auto">
@@ -25,10 +27,10 @@ const Footer = () => (
           <FaLinkedin />
         </a>
         <a
-          href="mailto:your@email.com"
+          href="mailto:zaidkidwai2@gmail.com"
           className="hover:text-white transition"
         >
-          <FaEnvelope />
+          <MdEmail />
         </a>
       </div>
     </div>
