@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import {
-  FaPython, FaGitAlt, FaHtml5, FaCss3Alt, FaReact, FaJava,
+  FaPython, FaGitAlt, FaGithub, FaHtml5, FaCss3Alt, FaReact, FaJava,
 } from "react-icons/fa";
 import {
   SiJavascript, SiMongodb, SiNextdotjs, SiTailwindcss,
-  SiFlask, SiDjango, SiC, SiCplusplus, SiSqlite, SiOpenai,
+  SiFlask, SiDjango, SiC, SiCplusplus, SiSqlite, SiOpenai, SiPostman,
 } from "react-icons/si";
 
 const skillCategories = [
@@ -36,6 +36,8 @@ const skillCategories = [
     title: "Tools & Technologies",
     items: [
       { name: "Git", icon: <FaGitAlt className="text-[#F1502F]" />, desc: "Version control" },
+      { name: "Postman", icon: <SiPostman className="text-[#FF6C37]"/>, desc: "API testing tool"},
+      { name: "Github", icon: <FaGithub className="text-white"/>, desc: "Code hosting platform"},
       { name: "BERT", icon: <SiOpenai className="text-[#7E22CE]" />, desc: "NLP transformer model" },
     ],
   },
