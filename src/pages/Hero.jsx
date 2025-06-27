@@ -64,7 +64,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white px-6 md:px-16 overflow-hidden"
+      className="relative min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white px-6 md:px-16 overflow-hidden"
     >
       {/* Background Blobs */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -76,21 +76,21 @@ const Hero = () => {
       {/* Main Content */}
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-7xl mx-auto">
         {/* Text Side */}
-        <div className="text-left space-y-6">
+        <div className="text-center md:text-left space-y-6 md:space-y-8 px-2 md:px-0">
           <motion.h1
-            className="text-4xl md:text-6xl font-bold"
+            className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight"
             variants={container}
             initial="hidden"
             animate="visible"
           >
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap justify-center md:justify-start">
               {titleLine1.split("").map((char, i) => (
                 <motion.span key={i} variants={letter}>
                   {char === " " ? "\u00A0" : char}
                 </motion.span>
               ))}
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap justify-center md:justify-start">
               {titleLine2.split("").map((char, i) => (
                 <motion.span key={`line2-${i}`} variants={letter}>
                   {char === " " ? "\u00A0" : char}
@@ -100,7 +100,7 @@ const Hero = () => {
           </motion.h1>
 
           {/* ✨ Typewriter Phrase */}
-          <p className="text-3xl md:text-4xl font-extrabold h-12">
+          <p className="text-2xl sm:text-3xl md:text-4xl font-extrabold h-12">
             <span className="inline-block bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-transparent drop-shadow-md">
               {text}
             </span>
@@ -119,7 +119,7 @@ const Hero = () => {
           </motion.a>
 
           {/* Social Links */}
-          <div className="flex gap-4 mt-4">
+          <div className="flex justify-center md:justify-start gap-4 mt-4">
             <a
               href="https://github.com/zaidkid"
               target="_blank"
@@ -129,7 +129,7 @@ const Hero = () => {
               <FaGithub />
             </a>
             <a
-              href="https://www.linkedin.com/in/mohd-zaid-kidwai-167892243/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3Bh%2Fe1CtFqTciNrr2Dbre%2B%2Fg%3D%3D"
+              href="https://www.linkedin.com/in/mohd-zaid-kidwai-167892243/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-2xl hover:text-blue-400 transition-transform transform hover:scale-110"
@@ -140,11 +140,11 @@ const Hero = () => {
         </div>
 
         {/* Image Side */}
-        <div className="w-full h-[400px] flex justify-center items-center">
+        <div className="w-full flex justify-center items-center mt-10 md:mt-0">
           <motion.img
             src="/my-photo.jpg"
             alt="Zaid Kidwai"
-            className="w-72 h-72 rounded-full object-cover border-4 shadow-xl border-white/100 hover:scale-105 hover:rotate-1 transition-all duration-500 ease-in-out"
+            className="w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 rounded-full object-cover border-4 shadow-xl border-white/100 hover:scale-105 hover:rotate-1 transition-all duration-500 ease-in-out"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05, rotate: 1 }}
