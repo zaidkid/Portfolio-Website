@@ -76,9 +76,9 @@ const Hero = () => {
       {/* Main Content */}
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-7xl mx-auto">
         {/* Text Section */}
-        <div className="text-center md:text-left space-y-6">
+        <div className="text-center md:text-left space-y-4 md:space-y-6">
           <motion.h1
-            className="text-4xl md:text-6xl font-bold"
+            className="text-4xl font-extrabold md:text-6xl md:font-bold"
             variants={container}
             initial="hidden"
             animate="visible"
@@ -100,7 +100,7 @@ const Hero = () => {
           </motion.h1>
 
           {/* Typewriter Text */}
-          <p className="text-2xl md:text-4xl font-extrabold h-12">
+          <p className="text-2xl md:text-4xl font-extrabold h-auto md:h-12">
             <span className="inline-block bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-transparent drop-shadow-md">
               {text}
             </span>
@@ -112,13 +112,15 @@ const Hero = () => {
           {/* 🚀 View Projects Button */}
           <motion.a
             href="#projects"
-            className="group inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold shadow-lg transition-transform duration-300 transform hover:scale-110 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white"
+            className="group inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-medium transition duration-300 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white shadow-lg transform hover:scale-105"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 2.5 }}
           >
             🚀 View Projects
-            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
           </motion.a>
 
           {/* Social Icons */}
@@ -143,11 +145,11 @@ const Hero = () => {
         </div>
 
         {/* Image Section */}
-        <div className="w-full h-[400px] flex justify-center items-center">
+        <div className="w-full h-[300px] md:h-[400px] flex justify-center items-center">
           <motion.img
             src="/my-photo.jpg"
             alt="Zaid Kidwai"
-            className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover border-4 shadow-xl border-white hover:scale-105 hover:rotate-1 transition-all duration-500 ease-in-out"
+            className="w-60 h-60 md:w-72 md:h-72 rounded-full object-cover border-4 shadow-xl border-white hover:scale-105 hover:rotate-1 transition-all duration-500 ease-in-out"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05, rotate: 1 }}
