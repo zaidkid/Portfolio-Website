@@ -78,7 +78,7 @@ const Hero = () => {
         {/* Text Section */}
         <div className="text-center md:text-left space-y-6">
           <motion.h1
-            className="text-4xl ont-extrabold md:text-6xl md:font-bold"
+            className="text-4xl md:text-6xl font-bold"
             variants={container}
             initial="hidden"
             animate="visible"
