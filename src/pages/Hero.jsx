@@ -64,7 +64,7 @@ const Hero = () => {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col md:flex-row items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white px-6 md:px-16 overflow-hidden"
+      className="relative min-h-screen flex items-center bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white px-6 md:px-16 overflow-hidden"
     >
       {/* Background Blobs */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -75,22 +75,22 @@ const Hero = () => {
 
       {/* Main Content */}
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-7xl mx-auto">
-        {/* Text Side */}
-        <div className="text-center md:text-left space-y-6 md:space-y-8 px-2 md:px-0">
+        {/* Text Section */}
+        <div className="text-center md:text-left space-y-6">
           <motion.h1
-            className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight"
+            className="text-4xl ont-extrabold md:text-6xl md:font-bold"
             variants={container}
             initial="hidden"
             animate="visible"
           >
-            <div className="flex flex-wrap justify-center md:justify-start">
+            <div className="flex justify-center md:justify-start flex-wrap">
               {titleLine1.split("").map((char, i) => (
                 <motion.span key={i} variants={letter}>
                   {char === " " ? "\u00A0" : char}
                 </motion.span>
               ))}
             </div>
-            <div className="flex flex-wrap justify-center md:justify-start">
+            <div className="flex justify-center md:justify-start flex-wrap">
               {titleLine2.split("").map((char, i) => (
                 <motion.span key={`line2-${i}`} variants={letter}>
                   {char === " " ? "\u00A0" : char}
@@ -99,26 +99,29 @@ const Hero = () => {
             </div>
           </motion.h1>
 
-          {/* ✨ Typewriter Phrase */}
-          <p className="text-2xl sm:text-3xl md:text-4xl font-extrabold h-12">
+          {/* Typewriter Text */}
+          <p className="text-2xl md:text-4xl font-extrabold h-12">
             <span className="inline-block bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-transparent drop-shadow-md">
               {text}
             </span>
-            <span className="text-purple-200 animate-pulse ml-1">{showCursor ? "|" : " "}</span>
+            <span className="text-purple-200 animate-pulse ml-1">
+              {showCursor ? "|" : " "}
+            </span>
           </p>
 
-          {/* CTA Button */}
+          {/* 🚀 View Projects Button */}
           <motion.a
             href="#projects"
-            className="bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-200 transition inline-block"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 2.5 }}
+            className="group inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold shadow-lg transition-transform duration-300 transform hover:scale-110 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white"
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 2.5 }}
           >
             🚀 View Projects
+            <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </motion.a>
 
-          {/* Social Links */}
+          {/* Social Icons */}
           <div className="flex justify-center md:justify-start gap-4 mt-4">
             <a
               href="https://github.com/zaidkid"
@@ -139,12 +142,12 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Image Side */}
-        <div className="w-full flex justify-center items-center mt-10 md:mt-0">
+        {/* Image Section */}
+        <div className="w-full h-[400px] flex justify-center items-center">
           <motion.img
             src="/my-photo.jpg"
             alt="Zaid Kidwai"
-            className="w-52 h-52 sm:w-64 sm:h-64 md:w-72 md:h-72 rounded-full object-cover border-4 shadow-xl border-white/100 hover:scale-105 hover:rotate-1 transition-all duration-500 ease-in-out"
+            className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover border-4 shadow-xl border-white hover:scale-105 hover:rotate-1 transition-all duration-500 ease-in-out"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             whileHover={{ scale: 1.05, rotate: 1 }}
