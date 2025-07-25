@@ -80,7 +80,7 @@ const Hero = () => {
   return (
     <motion.section
       id="home"
-      className="relative min-h-screen flex items-center text-white px-6 md:px-16 overflow-hidden"
+      className="relative min-h-screen flex items-center text-white font-serif px-6 md:px-16 overflow-hidden"
       aria-label="Hero Section"
       style={{
         backgroundColor: "#050B18",
