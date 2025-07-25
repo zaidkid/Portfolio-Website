@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring} from "framer-motion";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const titleLine1 = "Hey there!";
@@ -10,16 +12,16 @@ const container = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.06 },
+    transition: { staggerChildren: 0.05, delayChildren: 0.3 },
   },
 };
 
 const letter = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 25 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.3 },
+    transition: { type: "spring", stiffness: 500, damping: 30 },
   },
 };
 
@@ -32,8 +34,22 @@ const Hero = () => {
 
   const currentPhrase = typewriterPhrases[index];
 
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const smoothX = useSpring(mouseX, { damping: 30, stiffness: 300 });
+  const smoothY = useSpring(mouseY, { damping: 30, stiffness: 300 });
+
   useEffect(() => {
-    const typingSpeed = isDeleting ? 50 : 100;
+    const handleMouseMove = (e) => {
+      mouseX.set(e.clientX);
+      mouseY.set(e.clientY);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  useEffect(() => {
+    const typingSpeed = isDeleting ? 40 : 100;
     const pause = 1200;
 
     const timeout = setTimeout(() => {
@@ -62,27 +78,55 @@ const Hero = () => {
   }, []);
 
   return (
-    <section
+    <motion.section
       id="home"
-      className="relative min-h-screen flex items-center bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white px-6 md:px-16 overflow-hidden"
+      className="relative min-h-screen flex items-center text-white px-6 md:px-16 overflow-hidden"
+      aria-label="Hero Section"
+      style={{
+        backgroundColor: "#050B18",
+        backgroundImage: `
+          linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+        `,
+        backgroundSize: "40px 40px",
+      }}
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1, ease: "easeOut" }}
     >
-      {/* Background Blobs */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-purple-600 rounded-full opacity-30 blur-3xl animate-blob animation-delay-2000" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-500 rounded-full opacity-30 blur-3xl animate-blob" />
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-blue-500 rounded-full opacity-30 blur-3xl animate-blob animation-delay-4000" />
+      {/* 🔦 Spotlight Effect */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          background: `radial-gradient(350px at ${smoothX.get()}px ${smoothY.get()}px, rgba(255,255,255,0.07), transparent 80%)`,
+        }}
+      />
+
+      {/* 🔵 Blobs */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <motion.div
+          className="absolute top-0 left-0 w-80 h-80 bg-indigo-600 rounded-full opacity-30 blur-3xl"
+          animate={{ x: [0, 20, -20, 0], y: [0, -15, 15, 0] }}
+          transition={{ duration: 25, repeat: Infinity }}
+        />
+        <motion.div
+          className="absolute bottom-10 right-10 w-96 h-96 bg-fuchsia-500 rounded-full opacity-30 blur-3xl"
+          animate={{ x: [0, 30, -30, 0], y: [0, 20, -20, 0] }}
+          transition={{ duration: 35, repeat: Infinity }}
+        />
       </div>
 
-      {/* Main Content */}
+      {/* 📄 Main Grid */}
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center w-full max-w-7xl mx-auto">
-        {/* Text Section */}
-        <div className="text-center md:text-left space-y-4 md:space-y-6">
-          <motion.h1
-            className="text-4xl font-extrabold md:text-6xl md:font-bold"
-            variants={container}
-            initial="hidden"
-            animate="visible"
-          >
+        {/* 📝 Text Section */}
+        <motion.div
+          className="text-center md:text-left space-y-6"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.6 }}
+          variants={container}
+        >
+          <h1 className="text-4xl md:text-6xl font-extrabold">
             <div className="flex justify-center md:justify-start flex-wrap">
               {titleLine1.split("").map((char, i) => (
                 <motion.span key={i} variants={letter}>
@@ -97,67 +141,83 @@ const Hero = () => {
                 </motion.span>
               ))}
             </div>
-          </motion.h1>
+          </h1>
 
-          {/* Typewriter Text */}
-          <p className="text-2xl md:text-4xl font-extrabold h-auto md:h-12">
-            <span className="inline-block bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-transparent drop-shadow-md">
+          {/* ⌨️ Typewriter */}
+          <p className="text-2xl md:text-4xl font-extrabold h-12">
+            <motion.span
+              className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-400 bg-clip-text text-transparent drop-shadow-sm"
+              animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+              transition={{ duration: 6, repeat: Infinity }}
+            >
               {text}
-            </span>
-            <span className="text-purple-200 animate-pulse ml-1">
-              {showCursor ? "|" : " "}
-            </span>
+            </motion.span>
+            <motion.span
+              className="text-purple-200 ml-1"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: showCursor ? 1 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              |
+            </motion.span>
           </p>
 
-          {/* 🚀 View Projects Button */}
+          {/* 🎯 CTA */}
           <motion.a
             href="#projects"
-            className="group inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-medium transition duration-300 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white shadow-lg transform hover:scale-105"
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 2.5 }}
+            className="group inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-semibold shadow-md hover:bg-gradient-to-r hover:from-pink-500 hover:to-indigo-500 hover:text-white transition focus:outline-none"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            🚀 View Projects
-            <span className="transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
+            🚀 View Projects <span className="group-hover:translate-x-1 transition">→</span>
           </motion.a>
 
-          {/* Social Icons */}
+          {/* 🌐 Socials */}
           <div className="flex justify-center md:justify-start gap-4 mt-4">
-            <a
+            <motion.a
               href="https://github.com/zaidkid"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-2xl hover:text-purple-400 transition-transform transform hover:scale-110"
+              className="text-2xl hover:text-purple-400"
+              whileHover={{ scale: 1.15 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              aria-label="GitHub profile"
             >
               <FaGithub />
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="https://www.linkedin.com/in/mohd-zaid-kidwai-167892243/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-2xl hover:text-blue-400 transition-transform transform hover:scale-110"
+              className="text-2xl hover:text-blue-400"
+              whileHover={{ scale: 1.15 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              aria-label="LinkedIn profile"
             >
               <FaLinkedin />
-            </a>
+            </motion.a>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Image Section */}
-        <div className="w-full h-[300px] md:h-[400px] flex justify-center items-center">
+        {/* 👤 Profile Image */}
+        <motion.div
+          className="w-full h-[220px] sm:h-[300px] md:h-[400px] flex justify-center items-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+        >
           <motion.img
             src="/my-photo.jpg"
-            alt="Zaid Kidwai"
-            className="w-60 h-60 md:w-72 md:h-72 rounded-full object-cover border-4 shadow-xl border-white hover:scale-105 hover:rotate-1 transition-all duration-500 ease-in-out"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            alt="Portrait of Zaid Kidwai smiling"
+            className="w-40 h-40 sm:w-60 sm:h-60 md:w-72 md:h-72 rounded-full object-cover border-4 border-white shadow-xl"
             whileHover={{ scale: 1.05, rotate: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ type: "spring", stiffness: 200 }}
+            loading="lazy"
           />
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

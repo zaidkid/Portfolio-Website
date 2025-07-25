@@ -1,6 +1,17 @@
 import { motion } from "framer-motion";
 import Lottie from "lottie-react";
-import devAnimation from "../assets/dev-lottie.json"; // Replace with your animation
+import devAnimation from "../assets/Coder.json";
+
+const jumpVariants = {
+  animate: {
+    y: [0, -20, 0],
+    transition: {
+      duration: 2,
+      repeat: Infinity,
+      ease: "easeInOut",
+    },
+  },
+};
 
 const floatVariants = {
   initial: { y: 0 },
@@ -16,7 +27,7 @@ const About = () => {
       id="about"
       className="relative bg-gradient-to-br from-[#0f0f0f] via-[#111827] to-[#1f2937] text-white py-24 px-6 overflow-hidden"
     >
-      {/* Floating Background Shapes */}
+      {/* Floating Background Blobs */}
       <motion.div
         className="absolute top-20 left-10 w-32 h-32 bg-purple-500/30 rounded-full blur-2xl"
         variants={floatVariants}
@@ -30,7 +41,7 @@ const About = () => {
         animate="animate"
       />
 
-      {/* Main Grid */}
+      {/* Main Content */}
       <div className="relative z-10 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-14 items-center">
         {/* Text Content */}
         <motion.div
@@ -58,17 +69,15 @@ const About = () => {
           </p>
         </motion.div>
 
-        {/* Lottie Animation */}
+        {/* Jumping Lottie Animation */}
         <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          variants={jumpVariants}
+          animate="animate"
           className="w-full h-[400px] md:h-[480px] overflow-hidden"
         >
           <Lottie
             animationData={devAnimation}
-            loop={true}
+            loop
             className="w-full h-full object-contain"
           />
         </motion.div>
