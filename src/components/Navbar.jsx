@@ -78,7 +78,7 @@ const Navbar = () => {
                 spy={true}
                 offset={-70}
                 activeClass="text-purple-400"
-                className="cursor-pointer relative transition font-medium hover:text-purple-400 group"
+                className="cursor-pointer relative transition font-extrabold font-serif hover:text-purple-400 group"
               >
                 {link.name}
                 <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-purple-400 transition-all group-hover:w-full" />
