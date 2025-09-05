@@ -61,8 +61,9 @@ const Navbar = () => {
               to="home"
               smooth={true}
               duration={500}
-              className="text-2xl font-bold text-purple-400 cursor-pointer"
+              className="text-2xl font-bold font-serif text-white-900 cursor-pointer"
             >
+              ZK.
             </Link>
           </div>
 
