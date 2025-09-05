@@ -26,6 +26,14 @@ const projects = [
     tech: ["ReactJs", "Framer Motion", "Tailwind CSS", "Responsive UI"],
     github: "https://github.com/zaidkid/Portfolio-Website",
     vercel: "https://portfolio-zaidkidwai.vercel.app/",
+  },
+  {
+    title: "Jewellery Website",
+    description: "A modern, responsive jewellery e-commerce site with product showcases, shopping cart, and contact features.",
+    image: "/images/Jewelora.png",
+    tech: ["NextJs", "NodeJs", "Tailwind CSS", "Responsive UI"],
+    github: "https://github.com/zaidkid/Jewellery-website",
+    vercel: "https://jewellery-website-weld.vercel.app/",
   }
 ];
 
