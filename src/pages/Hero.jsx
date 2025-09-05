@@ -126,7 +126,7 @@ const Hero = () => {
           viewport={{ once: true, amount: 0.6 }}
           variants={container}
         >
-          <h1 className="text-4xl md:text-6xl font-extrabold">
+          <h1 className="text-4xl md:text-5xl font-bold">
             <div className="flex justify-center md:justify-start flex-wrap">
               {titleLine1.split("").map((char, i) => (
                 <motion.span key={i} variants={letter}>

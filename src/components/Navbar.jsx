@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-scroll";
-import { BsSun, BsMoon } from "react-icons/bs"; // Sun & Moon icons
 
 const navLinks = [
   { name: "Home", to: "home" },
@@ -17,12 +16,6 @@ const Navbar = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const menuRef = useRef(null);
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") === "dark";
-    }
-    return false;
-  });
 
   // Scroll show/hide navbar
   useEffect(() => {
@@ -50,17 +43,6 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
-  // Apply dark mode class
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
-
   return (
     <>
       {/* Scroll Progress */}
@@ -73,7 +55,7 @@ const Navbar = () => {
         } bg-black backdrop-blur-md shadow-md`}
       >
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center text-white">
-          {/* Logo + Toggle */}
+          {/* Logo */}
           <div className="flex items-center gap-4">
             <Link
               to="home"
@@ -81,16 +63,8 @@ const Navbar = () => {
               duration={500}
               className="text-2xl font-bold text-purple-400 cursor-pointer"
             >
+              Zaid.dev
             </Link>
-
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="text-xl bg-gray-800 hover:bg-gray-700 p-2 rounded-full transition duration-200"
-              title="Toggle Dark Mode"
-            >
-              {darkMode ? <BsSun className="text-yellow-400" /> : <BsMoon />}
-            </button>
           </div>
 
           {/* Desktop Nav */}
