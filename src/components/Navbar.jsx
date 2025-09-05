@@ -63,7 +63,6 @@ const Navbar = () => {
               duration={500}
               className="text-2xl font-bold text-purple-400 cursor-pointer"
             >
-              Zaid.dev
             </Link>
           </div>
 
