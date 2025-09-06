@@ -6,7 +6,7 @@ const educationData = [
     institution: "Bennett University, Noida",
     year: "2023 - 2027",
     details:
-      "Specialized in AI, ML, and Web Development. Completed projects on semantic search, legal AI tools, and full-stack apps.",
+      "Specialized in AI/ML, and Web Development. Completed projects on semantic search and full-stack websites.",
   },
   {
     degree: "Higher Secondary (Class 12th)",
@@ -20,7 +20,7 @@ const educationData = [
     institution: "St.Anthony's School, Barabanki",
     year: "2020",
     details:
-      "Built strong academic foundation and participated in coding and science exhibitions.",
+      "Studied science and mathematics, which later helped me develop problem-solving skills.",
   },
 ];
 

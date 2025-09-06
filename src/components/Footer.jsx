@@ -11,7 +11,7 @@ const Footer = () => (
 
       <div className="flex gap-6 text-xl justify-center">
         <a
-          href="https://github.com/yourusername"
+          href="https://github.com/zaidkid"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-white transition"
@@ -19,7 +19,7 @@ const Footer = () => (
           <FaGithub />
         </a>
         <a
-          href="https://linkedin.com/in/yourprofile"
+          href="https://www.linkedin.com/in/mohd-zaid-kidwai-167892243/"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:text-white transition"
