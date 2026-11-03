@@ -111,9 +111,7 @@ const Hero = () => {
   return (
     <main id="home" className="bg-[#15171B] font-['Inter',sans-serif] text-[#9CA3AF]">
       <motion.div aria-hidden="true" style={{ scaleX: bar }} className="fixed inset-x-0 top-0 z-50 h-0.5 origin-left bg-[#F3F4F6]" />
-      <a href="#home" className={`fixed left-6 top-5 z-50 text-xl font-extrabold text-[#F3F4F6] md:left-16 ${display} ${ring}`}>
-        zaid<span className="text-[#6B7280]">.</span>
-      </a>
+
 
       {/* 1. Fly through the name into the portrait */}
       <Scene vh={450} rest={1} className="bg-gradient-to-br from-[#2A2D33] via-[#1E2126] to-[#15171B]">
