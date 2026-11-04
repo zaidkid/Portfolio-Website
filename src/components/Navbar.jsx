@@ -96,7 +96,7 @@ const Navbar = () => {
             ))}
 
             <a
-              href="my-portfolio\public\Resume.pdf"
+              href="\Resume.pdf"
               download="Zaid_Kidwai_Resume.pdf"
               className="inline-flex items-center gap-2 rounded-[10px] bg-white px-5 py-2.5 text-sm font-semibold text-[#14171F] transition hover:-translate-y-0.5 hover:bg-[#E5E7EB]"
             >
