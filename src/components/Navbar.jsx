@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import { FaBars, FaTimes, FaDownload } from "react-icons/fa";
@@ -11,46 +12,87 @@ const navLinks = [
   { name: "Contact", to: "contact" },
 ];
 
+const RESUME_PATH = "/Resume.pdf";
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
+
   const lastY = useRef(0);
   const headerRef = useRef(null);
 
-  // Scroll progress bar (no custom CSS animation needed)
+  // Scroll progress indicator
   const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
 
-  // Hide on scroll down, show on scroll up (ref avoids re-registering the listener)
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    mass: 0.3,
+  });
+
+  // Hide navbar while scrolling down and show while scrolling up
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
+
       if (Math.abs(y - lastY.current) < 6) return;
+
       setHidden(y > lastY.current && y > 80);
       lastY.current = y;
     };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
-  // Close the mobile menu on outside click or Escape
+  // Close mobile menu on outside click or Escape
   useEffect(() => {
     if (!menuOpen) return;
+
     const onDown = (e) => {
-      if (headerRef.current && !headerRef.current.contains(e.target)) setMenuOpen(false);
+      if (headerRef.current && !headerRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
     };
-    const onKey = (e) => e.key === "Escape" && setMenuOpen(false);
+
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        setMenuOpen(false);
+      }
+    };
+
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
+
     return () => {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
   }, [menuOpen]);
 
+  // Reusable resume button
+  const ResumeButton = ({ mobile = false }) => (
+    <a
+      href={RESUME_PATH}
+      download="Zaid_Kidwai_Resume.pdf"
+      onClick={() => setMenuOpen(false)}
+      className={
+        mobile
+          ? "mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-base font-semibold text-[#14171F] transition hover:bg-[#E5E7EB]"
+          : "inline-flex items-center gap-2 rounded-[10px] bg-white px-5 py-2.5 text-sm font-semibold text-[#14171F] transition hover:-translate-y-0.5 hover:bg-[#E5E7EB]"
+      }
+    >
+      {mobile ? "Download Resume" : "Resume"}
+      <FaDownload className={mobile ? "text-sm" : "text-xs"} />
+    </a>
+  );
+
   return (
     <>
-      {/* Scroll progress */}
+      {/* Scroll progress bar */}
       <motion.div
         aria-hidden="true"
         style={{ scaleX: progress }}
@@ -64,6 +106,7 @@ const Navbar = () => {
         }`}
       >
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 text-white md:px-8">
+
           {/* Logo */}
           <Link
             to="home"
@@ -77,7 +120,7 @@ const Navbar = () => {
             </span>
           </Link>
 
-          {/* Desktop nav */}
+          {/* Desktop navigation */}
           <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
               <Link
@@ -91,24 +134,19 @@ const Navbar = () => {
                 className="group relative cursor-pointer py-1 text-[15px] font-medium text-[#B6BDC9] transition-colors hover:text-white"
               >
                 {link.name}
+
                 <span className="absolute inset-x-0 -bottom-0.5 h-0.5 origin-left scale-x-0 rounded bg-white transition-transform duration-300 group-hover:scale-x-100" />
               </Link>
             ))}
 
-            <a
-              href="/Resume.pdf"
-              download="Zaid_Kidwai_Resume.pdf"
-              className="inline-flex items-center gap-2 rounded-[10px] bg-white px-5 py-2.5 text-sm font-semibold text-[#14171F] transition hover:-translate-y-0.5 hover:bg-[#E5E7EB]"
-            >
-              Resume <FaDownload className="text-xs" />
-            </a>
+            <ResumeButton />
           </nav>
 
-          {/* Mobile toggle */}
+          {/* Mobile menu toggle */}
           <button
             type="button"
             className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/15 text-xl md:hidden"
-            onClick={() => setMenuOpen((o) => !o)}
+            onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
@@ -117,7 +155,7 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile navigation */}
         <AnimatePresence>
           {menuOpen && (
             <motion.nav
@@ -144,13 +182,8 @@ const Navbar = () => {
                   {link.name}
                 </Link>
               ))}
-              <a
-                href="/resume.pdf"
-                download
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-base font-semibold text-[#14171F]"
-              >
-                Download Resume <FaDownload className="text-sm" />
-              </a>
+
+              <ResumeButton mobile />
             </motion.nav>
           )}
         </AnimatePresence>
