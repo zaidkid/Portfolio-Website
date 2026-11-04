@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Hero from "./pages/Hero";
-import About from "./pages/About";
 import Education from "./pages/Education";
 import Projects from "./pages/Projects";
 import Skills from "./pages/Skills";
@@ -27,7 +26,6 @@ function App() {
         <section id="home" className="scroll-mt-20">
           <Hero isDarkMode={darkMode} />
         </section>
-        <section id="about" className="scroll-mt-20"><About /></section>
         <section id="Education" className="scroll-mt-20"><Education /></section>
         <section id="projects" className="scroll-mt-20"><Projects /></section>
         <section id="skills" className="scroll-mt-20"><Skills /></section>

@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, useMotionTemplate } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import { Scene, useT, display, ring } from "./ScrollScene";
 
-// List of projects
 const projects = [
   {
     title: "AI Legal Research Engine",
@@ -34,104 +34,97 @@ const projects = [
     tech: ["NextJs", "NodeJs", "Tailwind CSS", "Responsive UI"],
     github: "https://github.com/zaidkid/Jewellery-website",
     vercel: "https://jewellery-website-weld.vercel.app/",
-  }
+  },
 ];
 
-// Motion variants
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay: i * 0.3 },
-  }),
-};
+const N = projects.length;
+const SLOT = 0.72 / (N - 1);
+const win = (i) => [0.08 + (i - 1) * SLOT, 0.08 + (i - 0.25) * SLOT]; // scroll range in which card i slides in (i >= 1)
+const clamp01 = (x) => Math.min(1, Math.max(0, x));
 
-const Projects = () => {
-  return (
-    <section
-      id="projects"
-      className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 text-white py-20 px-6 overflow-hidden"
-    >
-      {/* Background Blobs */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-purple-600 rounded-full opacity-20 blur-3xl animate-blob animation-delay-2000" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-500 rounded-full opacity-20 blur-3xl animate-blob" />
-        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-blue-500 rounded-full opacity-20 blur-3xl animate-blob animation-delay-4000" />
-      </div>
+const link = `flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors ${ring}`;
 
-      {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto space-y-24">
-        <h2 className="text-4xl font-bold text-center mb-12">🚀 Projects</h2>
-
-        {projects.map((project, i) => (
-          <motion.div
-            key={i}
-            className={`flex flex-col md:flex-row items-center gap-8 ${
-              i % 2 !== 0 ? "md:flex-row-reverse" : ""
-            }`}
-            custom={i}
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {/* Image */}
-            <motion.img
-              src={project.image}
-              alt={project.title}
-              className="w-full md:w-1/2 rounded-xl shadow-lg border border-gray-700"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            />
-
-            {/* Text Content */}
-            <div className="md:w-1/2 text-left space-y-4">
-              <h3 className="text-2xl font-semibold text-purple-400">
-                {project.title}
-              </h3>
-              <p className="text-gray-300">{project.description}</p>
-
-              <div className="flex flex-wrap gap-2">
-                {project.tech.map((tech, j) => (
-                  <span
-                    key={j}
-                    className="bg-purple-700 bg-opacity-30 text-sm px-3 py-1 rounded-full text-purple-300"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex gap-4 pt-2">
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-md text-sm transition duration-200"
-                  >
-                    <FaGithub /> GitHub
-                  </a>
-                )}
-                {project.vercel && (
-                  <a
-                    href={project.vercel}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-md text-sm transition duration-200"
-                  >
-                    <FaExternalLinkAlt /> Live Site
-                  </a>
-                )}
-              </div>
-            </div>
-          </motion.div>
+const Body = ({ pr, i, imgScale }) => (
+  <div className="grid h-full grid-cols-1 content-center gap-4 md:grid-cols-2 md:gap-10">
+    <div className={`h-[110px] min-h-[110px] overflow-hidden rounded-2xl border border-[#3A404A] md:h-full md:min-h-[220px] ${i % 2 ? "md:order-2" : ""}`}>
+      <motion.img src={pr.image} alt={pr.title} style={{ scale: imgScale }} className="h-full w-full object-cover" />
+    </div>
+    <div className="flex flex-col justify-center gap-3 md:gap-4">
+      <h3 className={`text-2xl font-extrabold tracking-tight text-[#F3F4F6] md:text-4xl ${display}`}>{pr.title}</h3>
+      <p className="text-sm md:text-base">{pr.description}</p>
+      <ul className="flex flex-wrap gap-2">
+        {pr.tech.map((t) => (
+          <li key={t} className="rounded-full border border-[#4B5563] px-3 py-1 text-xs text-[#E5E7EB] md:text-sm">{t}</li>
         ))}
+      </ul>
+      <div className="flex gap-3 pt-1">
+        <a href={pr.github} target="_blank" rel="noopener noreferrer" className={`${link} border border-[#4B5563] bg-[#2F343D]/80 text-[#F3F4F6] hover:border-[#F3F4F6]`}>
+          <FaGithub /> GitHub
+        </a>
+        <a href={pr.vercel} target="_blank" rel="noopener noreferrer" className={`${link} bg-[#F3F4F6] text-[#14171F] hover:bg-white`}>
+          <FaExternalLinkAlt /> Live Site
+        </a>
       </div>
-    </section>
+    </div>
+  </div>
+);
+
+/** Card i slides up over the stack; cards beneath it shrink, lift and dim. */
+const Card = ({ p, i, pr }) => {
+  const [a, b] = i ? win(i) : [0, 1];
+  const y = useT(p, [a, b], i ? ["105vh", "0vh"] : ["0vh", "0vh"]);
+  const imgScale = useT(p, [a, b], i ? [1.2, 1] : [1, 1]);
+  const depth = useT(p, (v) => projects.reduce((d, _, j) => (j > i ? d + clamp01((v - win(j)[0]) / (win(j)[1] - win(j)[0])) : d), 0));
+  const scale = useT(depth, (d) => 1 - d * 0.06);
+  const lift = useT(depth, (d) => -d * 26);
+  const dim = useT(depth, (d) => 1 - d * 0.3);
+  const filter = useMotionTemplate`brightness(${dim})`;
+
+  return (
+    <motion.li style={{ y, zIndex: i }} className="absolute inset-0">
+      <motion.div style={{ scale, y: lift, filter }} className="h-full origin-top overflow-hidden rounded-3xl border border-[#3A404A] bg-[#2A2E35] p-5 shadow-2xl shadow-black/40 md:p-8">
+        <Body pr={pr} i={i} imgScale={imgScale} />
+      </motion.div>
+    </motion.li>
   );
 };
+
+function Stage({ p, reduce }) {
+  const scale = useT(p, [0, 0.08], [0.92, 1]);
+  const opacity = useT(p, [0, 0.08], [0, 1]);
+  const current = useT(p, (v) => 1 + projects.reduce((n, _, j) => (j && v > (win(j)[0] + win(j)[1]) / 2 ? n + 1 : n), 0));
+  const counter = useT(current, (c) => `0${c} / 0${N}`);
+  const title = `text-4xl font-extrabold tracking-tight text-[#F3F4F6] md:text-6xl ${display}`;
+
+  if (reduce)
+    return (
+      <div className="mx-auto max-w-6xl space-y-8 px-6 py-24 md:px-16">
+        <h2 className={title}>Projects</h2>
+        {projects.map((pr, i) => (
+          <div key={pr.title} className="rounded-3xl border border-[#3A404A] bg-[#2A2E35] p-5 md:p-8">
+            <Body pr={pr} i={i} />
+          </div>
+        ))}
+      </div>
+    );
+
+  return (
+    <motion.div style={{ scale, opacity }} className="absolute inset-0 mx-auto max-w-6xl">
+      <div className="absolute inset-x-6 top-24 flex items-end justify-between md:inset-x-16">
+        <h2 className={title}>Projects</h2>
+        <motion.span aria-hidden="true" className={`text-sm tabular-nums text-[#D1D5DB] ${display}`}>{counter}</motion.span>
+      </div>
+      <ol className="absolute inset-x-6 bottom-6 top-40 md:inset-x-16">
+        {projects.map((pr, i) => <Card key={pr.title} p={p} i={i} pr={pr} />)}
+      </ol>
+    </motion.div>
+  );
+}
+
+const Projects = () => (
+  <Scene id="projects" vh={100 + N * 100} className="font-['Inter',sans-serif] text-[#9CA3AF]">
+    {(p, reduce) => <Stage p={p} reduce={reduce} />}
+  </Scene>
+);
 
 export default Projects;
